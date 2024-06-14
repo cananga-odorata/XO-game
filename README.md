@@ -4,6 +4,10 @@
 2. There is a database for storing information.
 3. Bot
 
+# Link for play game 
+https://tic-tac-toe-xo-1.web.app/
+
+
 # How to setup
 ```js
 Git clone https://github.com/cananga-odorata/XO-game
