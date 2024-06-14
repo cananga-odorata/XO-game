@@ -3,7 +3,7 @@ import { url } from '../config';
 
 
 export const createHistory = async (data: any) => {
-    console.log(data)
+    // console.log(data)
     // console.log(`${url}/api/save-`)
     try {
         const history = await axios.post(`${url}/api/save-game`, {

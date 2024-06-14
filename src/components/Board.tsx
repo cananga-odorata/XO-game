@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from "react";
 import Square from "./Square";
 import { calculateWinner } from "../utils/calculateWinner";
-import { createHistory, getHistory } from "../service/historyService";
+import { createHistory } from "../service/historyService";
+// import GameHistory from "./GameHistory";
 
 
 interface BoardProps {
     size: number;
-    option: number
+    option: number;
+    // onGameEnd: () => void;
 }
 
 const Board: React.FC<BoardProps> = ({ size, option }) => {
@@ -18,14 +20,9 @@ const Board: React.FC<BoardProps> = ({ size, option }) => {
 
 
 
-    const getData = async () => {
-        const dataHistory = await getHistory();
-        console.log(dataHistory)
-    }
-
     useEffect(() => {
         resetGame();
-        getData();
+
     }, [size]);
 
     useEffect(() => {
@@ -33,7 +30,7 @@ const Board: React.FC<BoardProps> = ({ size, option }) => {
             setTimeout(() => {
 
                 makeBotMove();
-            }, 500)
+            }, 200)
         }
     }, [isNext, vsBot, gameEnded]);
 
@@ -64,7 +61,7 @@ const Board: React.FC<BoardProps> = ({ size, option }) => {
 
     const makeBotMove = () => {
         if (gameEnded) return;
-        let emptySquares = squares.map((value, index) => value === null ? index : null).filter(val => val !== null);
+        const emptySquares = squares.map((value, index) => value === null ? index : null).filter(val => val !== null);
         if (emptySquares.length === 0) return;
 
         const botMove = emptySquares[Math.floor(Math.random() * emptySquares.length)] as number;
@@ -82,14 +79,6 @@ const Board: React.FC<BoardProps> = ({ size, option }) => {
         }
     };
 
-    const renderSquare = (i: number) => {
-        return (
-            <Square
-                value={squares[i]}
-                onClick={() => handleClick(i)}
-            />
-        );
-    };
 
     const winner = calculateWinner(squares, size);
     const status = winner
@@ -109,6 +98,7 @@ const Board: React.FC<BoardProps> = ({ size, option }) => {
             history: history
         };
         await createHistory(data);
+        location.reload()
     }
 
     useEffect(() => {
@@ -123,25 +113,36 @@ const Board: React.FC<BoardProps> = ({ size, option }) => {
         for (let row = 0; row < size; row++) {
             let squaresRow = [];
             for (let col = 0; col < size; col++) {
-                squaresRow.push(renderSquare(row * size + col));
+                squaresRow.push(
+                    <Square
+                        key={row * size + col}
+                        value={squares[row * size + col]}
+                        onClick={() => handleClick(row * size + col)}
+                    />
+                );
             }
-            board.push(<div key={row} className="board-row">{squaresRow}</div>);
+            board.push(
+                <div key={row} className="board-row">
+                    {squaresRow}
+                </div>
+            );
         }
         return board;
     };
 
-    const renderHistory = () => {
-        return (
-            <div className="history">
-                <h3>Move History</h3>
-                <ol>
-                    {history.map((move, index) => (
-                        <li key={index}>{move}</li>
-                    ))}
-                </ol>
-            </div>
-        );
-    }
+
+    // const renderHistory = () => {
+    //     return (
+    //         <div className="history">
+    //             <h3>Move History</h3>
+    //             <ol>
+    //                 {history.map((move, index) => (
+    //                     <li key={index}>{move}</li>
+    //                 ))}
+    //             </ol>
+    //         </div>
+    //     );
+    // }
 
     return (
         <div className="board-status">
@@ -149,11 +150,23 @@ const Board: React.FC<BoardProps> = ({ size, option }) => {
             <div className="status">{status}</div>
             <button className="restart-button" onClick={resetGame}>Restart Game</button>
             <div className="game-settings">
-                <button onClick={() => setVsBot(!vsBot)}>
-                    {vsBot ? "Play with Human" : "Play with Bot"}
-                </button>
+
+                <div className="btn-vsbot" onClick={() => setVsBot(!vsBot)}>
+                    {vsBot ?
+                        <>
+                            <img src='https://ik.imagekit.io/4rkpg5ot7/toolkitweb/computer-solid.svg?updatedAt=1718373903087' />
+                            <h1>computer</h1>
+                        </>
+                        :
+                        <>
+                            <img src='https://ik.imagekit.io/4rkpg5ot7/toolkitweb/user-two-solid.svg?updatedAt=1718373902962' />
+                            <h1>2P</h1>
+                        </>
+                    }
+                </div>
             </div>
-            {renderHistory()}
+            {/* {renderHistory()} */}
+
         </div>
     );
 };

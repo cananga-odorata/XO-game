@@ -7,8 +7,21 @@
   flex-wrap: nowrap;
 }
 
+
+/* computer */
 @media (max-width: 3500px) {
-  select {
+
+  .btn-vsbot {
+    cursor: pointer;
+    /* width: 6rem; */
+    margin: 2rem;
+    width: 80%;
+  }
+  .btn-vsbot img{
+    width: 120px;
+  }
+
+  .board3 {
     text-decoration: none;
     color: #5f5480;
     background-color: rgba(218, 195, 255, 0.925);
@@ -21,7 +34,12 @@
     transition: all .2s;
     outline: none;
     border: none;
-    margin: 1%;
+    margin: 1rem;
+  }
+
+  .board3 option {
+    text-align: center;
+    /* Center text horizontally */
   }
 
   .board-status {
@@ -49,10 +67,30 @@
   .game-setting {
     margin: 5%;
   }
+
+  .history {
+    margin-top: 20px;
+  }
+
+  ul {
+    list-style-type: none;
+    padding: 0;
+  }
+
+  li {
+    margin: 10px 0;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+  }
+
+  h4 {
+    margin-top: 10px;
+  }
 }
 
 @media (max-width: 480px) {
-  select {
+  .board3 {
     text-decoration: none;
     color: #5f5480;
     background-color: rgba(218, 195, 255, 0.925);
@@ -108,6 +146,7 @@
   color: rgb(255, 255, 255);
   background-color: rgba(74, 202, 132, 0.925);
   box-shadow: 0 0 .35em rgba(0, 0, 0, .5);
+
 }
 
 .btn-board {
@@ -118,7 +157,7 @@
 
 
 
-select:hover {
+.board3:hover {
   color: rgb(255, 255, 255);
   background-color: rgba(74, 202, 132, 0.925);
   box-shadow: 0 0 .35em rgba(0, 0, 0, .5);

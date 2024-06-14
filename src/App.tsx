@@ -2,6 +2,7 @@
 import { useState } from 'react'
 import './App.css'
 import Board from './components/Board'
+import GameHistory from './components/GameHistory';
 
 function App() {
   const [size, setSize] = useState(3);
@@ -11,19 +12,23 @@ function App() {
     setSize(newSize);
 
   };
-  console.log(size)
+  // console.log(size)
   return (
     <div className='App'>
       <h1>Tic Tac Toe</h1>
       <select className='board3' value={size} onChange={handleSizeChange}>
         {Array.from({ length: 3 }).map((_, i) => (
           <option key={i + 3} value={i + 3}>
-            {i + 3}
+
+            {i + 3} x {i + 3}
+
           </option>
         ))}
       </select>
 
       <Board size={size} option={size} />
+      <GameHistory  />
+
     </div>
   )
 }
