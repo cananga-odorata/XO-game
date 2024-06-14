@@ -23,6 +23,32 @@
     border: none;
     margin: 1%;
   }
+
+  .board-status {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+  }
+
+  .square {
+    background: #fff;
+    border: 1px solid #999;
+    float: left;
+    font-size: 48px;
+    font-weight: bold;
+    line-height: 34px;
+    height: 100px;
+    margin-right: -1px;
+    margin-top: -1px;
+    padding: 0px;
+    text-align: center;
+    width: 100px;
+  }
+
+  .game-setting {
+    margin: 5%;
+  }
 }
 
 @media (max-width: 480px) {
@@ -39,6 +65,25 @@
     transition: all .2s;
     outline: none;
     border: none;
+    margin: 5%;
+  }
+
+  .square {
+    background: #fff;
+    border: 1px solid #999;
+    float: left;
+    font-size: 48px;
+    font-weight: bold;
+    line-height: 34px;
+    height: 60px;
+    margin-right: -1px;
+    margin-top: -1px;
+    padding: 0px;
+    text-align: center;
+    width: 60px;
+  }
+
+  .game-settings {
     margin: 5%;
   }
 }
@@ -97,21 +142,7 @@ ul {
 
 .status {
   margin: 10px;
-}
-
-.square {
-  background: #fff;
-  border: 1px solid #999;
-  float: left;
-  font-size: 48px;
-  font-weight: bold;
-  line-height: 34px;
-  height: 60px;
-  margin-right: -1px;
-  margin-top: -1px;
-  padding: 0px;
-  text-align: center;
-  width: 60px;
+  font-size: large;
 }
 
 .square:focus {
@@ -124,7 +155,8 @@ ul {
 
 .game {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
+  justify-content: center;
 }
 
 .game-info {

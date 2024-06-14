@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
 import Square from "./Square";
-import { createHistory } from "../service/historyService";
 import { calculateWinner } from "../utils/calculateWinner";
+import { createHistory, getHistory } from "../service/historyService";
 
 
 interface BoardProps {
     size: number;
-    option: number;
+    option: number
 }
 
 const Board: React.FC<BoardProps> = ({ size, option }) => {
@@ -14,10 +14,28 @@ const Board: React.FC<BoardProps> = ({ size, option }) => {
     const [isNext, setIsNext] = useState(true);
     const [history, setHistory] = useState<string[]>([]);
     const [gameEnded, setGameEnded] = useState(false);
+    const [vsBot, setVsBot] = useState(false);
+
+
+
+    const getData = async () => {
+        const dataHistory = await getHistory();
+        console.log(dataHistory)
+    }
 
     useEffect(() => {
         resetGame();
+        getData();
     }, [size]);
+
+    useEffect(() => {
+        if (!isNext && vsBot && !gameEnded) {
+            setTimeout(() => {
+
+                makeBotMove();
+            }, 500)
+        }
+    }, [isNext, vsBot, gameEnded]);
 
     const resetGame = () => {
         setSquares(Array(size * size).fill(null));
@@ -27,7 +45,7 @@ const Board: React.FC<BoardProps> = ({ size, option }) => {
     };
 
     const handleClick = (i: number) => {
-        if (gameEnded || squares[i]) {
+        if (gameEnded || squares[i] || (!isNext && vsBot)) {
             return;
         }
         const squareData = squares.slice();
@@ -36,6 +54,26 @@ const Board: React.FC<BoardProps> = ({ size, option }) => {
 
         setSquares(squareData);
         setIsNext(!isNext);
+        setHistory(newHistory);
+
+        const winner = calculateWinner(squareData, size);
+        if (winner || !squareData.includes(null)) {
+            setGameEnded(true);
+        }
+    };
+
+    const makeBotMove = () => {
+        if (gameEnded) return;
+        let emptySquares = squares.map((value, index) => value === null ? index : null).filter(val => val !== null);
+        if (emptySquares.length === 0) return;
+
+        const botMove = emptySquares[Math.floor(Math.random() * emptySquares.length)] as number;
+        const squareData = squares.slice();
+        squareData[botMove] = "o";
+        const newHistory = [...history, `Move ${history.length + 1}: o${botMove}`];
+
+        setSquares(squareData);
+        setIsNext(true);
         setHistory(newHistory);
 
         const winner = calculateWinner(squareData, size);
@@ -70,7 +108,7 @@ const Board: React.FC<BoardProps> = ({ size, option }) => {
             result: winner,
             history: history
         };
-        await createHistory(data)
+        await createHistory(data);
     }
 
     useEffect(() => {
@@ -102,7 +140,7 @@ const Board: React.FC<BoardProps> = ({ size, option }) => {
                     ))}
                 </ol>
             </div>
-        )
+        );
     }
 
     return (
@@ -110,6 +148,11 @@ const Board: React.FC<BoardProps> = ({ size, option }) => {
             {renderBoard()}
             <div className="status">{status}</div>
             <button className="restart-button" onClick={resetGame}>Restart Game</button>
+            <div className="game-settings">
+                <button onClick={() => setVsBot(!vsBot)}>
+                    {vsBot ? "Play with Human" : "Play with Bot"}
+                </button>
+            </div>
             {renderHistory()}
         </div>
     );
