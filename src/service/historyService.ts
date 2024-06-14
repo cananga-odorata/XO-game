@@ -19,3 +19,13 @@ export const createHistory = async (data: any) => {
     }
 
 }
+
+export const getHistory = async () => {
+    try {
+        const getData = await axios.get(`${url}/api/get-history`);
+        // const encryption = getData.data;
+        return (getData)
+    } catch (err) {
+        throw new Error('เกิดข้อผิดพลาดในการดึงข้อมูล');
+    }
+}
