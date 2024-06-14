@@ -79,7 +79,6 @@ const Board: React.FC<BoardProps> = ({ size, option }) => {
         }
     };
 
-
     const winner = calculateWinner(squares, size);
     const status = winner
         ? `Winner is: ${winner}`
@@ -129,20 +128,6 @@ const Board: React.FC<BoardProps> = ({ size, option }) => {
         }
         return board;
     };
-
-
-    // const renderHistory = () => {
-    //     return (
-    //         <div className="history">
-    //             <h3>Move History</h3>
-    //             <ol>
-    //                 {history.map((move, index) => (
-    //                     <li key={index}>{move}</li>
-    //                 ))}
-    //             </ol>
-    //         </div>
-    //     );
-    // }
 
     return (
         <div className="board-status">
