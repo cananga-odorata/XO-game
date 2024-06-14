@@ -1,0 +1,88 @@
+.App {
+  font-family: sans-serif;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex-wrap: nowrap;
+}
+
+.btn-board {
+  display: flex;
+  width: 30%;
+  padding: 10%;
+}
+
+select {
+  text-decoration: none;
+  color: #5f5480;
+  background-color: rgba(218, 195, 255, 0.925);
+  border-radius: .5em;
+  box-shadow: 0 0 .25em rgba(0, 0, 0, .25);
+  box-sizing: border-box;
+  padding: 0rem 4rem;
+  text-align: center;
+  font-size: 48px;
+  transition: all .2s;
+  outline: none;
+  border: none;
+  margin: 1%;
+}
+
+select:hover {
+  color: rgb(255, 255, 255);
+  background-color: rgba(74, 202, 132, 0.925);
+  box-shadow: 0 0 .35em rgba(0, 0, 0, .5);
+}
+
+body {
+  font: 14px "Century Gothic", Futura, sans-serif;
+  margin: 20px;
+}
+
+ol,
+ul {
+  padding-left: 30px;
+}
+
+.board-row:after {
+  clear: both;
+  content: "";
+  display: table;
+}
+
+.status {
+  margin-bottom: 10px;
+}
+
+.square {
+  background: #fff;
+  border: 1px solid #999;
+  float: left;
+  font-size: 48px;
+  font-weight: bold;
+  line-height: 34px;
+  height: 60px;
+  margin-right: -1px;
+  margin-top: -1px;
+  padding: 0px;
+  text-align: center;
+  width: 60px;
+}
+
+.square:focus {
+  outline: none;
+}
+
+.kbd-navigation .square:focus {
+  background: #ddd;
+}
+
+.game {
+  display: flex;
+  flex-direction: row;
+}
+
+.game-info {
+  margin-left: 20px;
+}
