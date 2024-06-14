@@ -1,12 +1,15 @@
 import React, { useEffect, useState } from "react";
 import Square from "./Square";
 import { createHistory } from "../service/historyService";
+import { calculateWinner } from "../utils/calculateWinner";
+
 
 interface BoardProps {
     size: number;
+    option: number;
 }
 
-const Board: React.FC<BoardProps> = ({ size }) => {
+const Board: React.FC<BoardProps> = ({ size, option }) => {
     const [squares, setSquares] = useState<(string | null)[]>(Array(size * size).fill(null));
     const [isNext, setIsNext] = useState(true);
     const [history, setHistory] = useState<string[]>([]);
@@ -15,7 +18,6 @@ const Board: React.FC<BoardProps> = ({ size }) => {
     useEffect(() => {
         resetGame();
     }, [size]);
-
 
     const resetGame = () => {
         setSquares(Array(size * size).fill(null));
@@ -58,11 +60,10 @@ const Board: React.FC<BoardProps> = ({ size }) => {
             ? "Game is a draw"
             : `Next player: ${isNext ? "x" : "o"}`;
 
-
-
     const sendHistorytocreate = async (winner: string) => {
         const data = {
             event: "Tic-Tac-Toe Game",
+            option: option,
             date: new Date().toISOString(),
             white: "Player X",
             black: "Player O",
@@ -71,6 +72,7 @@ const Board: React.FC<BoardProps> = ({ size }) => {
         };
         await createHistory(data)
     }
+
     useEffect(() => {
         if (gameEnded) {
             const result = winner || "Draw";
@@ -112,48 +114,5 @@ const Board: React.FC<BoardProps> = ({ size }) => {
         </div>
     );
 };
-
-
-
-
-function calculateWinner(squares: (string | null)[], size: number) {
-    const lines: number[][] = [];
-
-    // Rows
-    for (let row = 0; row < size; row++) {
-        const line = [];
-        for (let col = 0; col < size; col++) {
-            line.push(row * size + col);
-        }
-        lines.push(line);
-    }
-
-    // Columns
-    for (let col = 0; col < size; col++) {
-        const line = [];
-        for (let row = 0; row < size; row++) {
-            line.push(row * size + col);
-        }
-        lines.push(line);
-    }
-
-    // Diagonals
-    const diag1 = [];
-    const diag2 = [];
-    for (let i = 0; i < size; i++) {
-        diag1.push(i * size + i);
-        diag2.push(i * size + (size - 1 - i));
-    }
-    lines.push(diag1, diag2);
-
-    // Check for winner
-    for (let line of lines) {
-        const [first, ...rest] = line;
-        if (squares[first] && rest.every(index => squares[index] === squares[first])) {
-            return squares[first];
-        }
-    }
-    return null;
-}
 
 export default Board;

@@ -23,7 +23,7 @@ function App() {
         ))}
       </select>
 
-      <Board size={size} />
+      <Board size={size} option={size} />
     </div>
   )
 }
